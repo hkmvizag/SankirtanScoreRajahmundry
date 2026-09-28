@@ -43,7 +43,7 @@ function setLoading(isLoading) {
 
 
 // 🔐 Airtable Config
-const API_KEY = "key";
+const API_KEY = "pat2S4Xi8qzIJieHT.617470335bb46cef0b40c143955f620d61ffae47e40391610ba4a943b2a20441";
 const BASE_ID = "app8eDDB6dLb2zYBu";
 const LLP_TABLE = "tblACfMsAiaAthCzI";
 const BM_TABLE = "tbluv0sbdAXERUVpP";

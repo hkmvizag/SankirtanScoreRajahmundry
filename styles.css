@@ -489,3 +489,13 @@ select:focus {
     padding: 8px 10px;
   }
 }
+
+/* ── Numeric columns: right-aligned ─────────────── */
+/* Column 1 is the Devotee name; columns 2+ are numbers
+   (Contacts / Laxmi Points, Book Points / Sales Points).
+   Applies to header, body and total rows in both tables. */
+.results-table th:nth-child(n + 2),
+.results-table td:nth-child(n + 2) {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}

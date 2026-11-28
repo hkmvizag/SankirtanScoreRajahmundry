@@ -145,8 +145,8 @@ function renderTables(llpRecords, bmRecords) {
     html += `
       <tr>
         <td>${devotee}</td>
-        <td>${formatNumber(contacts)}</td>
-        <td>${formatNumber(laxmi)}</td>
+        <td><span class="num">${formatNumber(contacts)}</span></td>
+        <td><span class="num">${formatNumber(laxmi)}</span></td>
       </tr>
     `;
   });
@@ -156,8 +156,8 @@ function renderTables(llpRecords, bmRecords) {
         <tfoot>
           <tr class="total-row">
             <td>Total</td>
-            <td>${formatNumber(llpContactsTotal)}</td>
-            <td>${formatNumber(llpLaxmiTotal)}</td>
+            <td><span class="num">${formatNumber(llpContactsTotal)}</span></td>
+            <td><span class="num">${formatNumber(llpLaxmiTotal)}</span></td>
           </tr>
         </tfoot>
       </table>
@@ -193,8 +193,8 @@ function renderTables(llpRecords, bmRecords) {
     html += `
       <tr>
         <td>${devotee}</td>
-        <td>${formatNumber(bookPoints)}</td>
-        <td>${formatNumber(salesPoints)}</td>
+        <td><span class="num">${formatNumber(bookPoints)}</span></td>
+        <td><span class="num">${formatNumber(salesPoints)}</span></td>
       </tr>
     `;
   });
@@ -204,8 +204,8 @@ function renderTables(llpRecords, bmRecords) {
         <tfoot>
           <tr class="total-row">
             <td>Total</td>
-            <td>${formatNumber(bmBookTotal)}</td>
-            <td>${formatNumber(bmSalesTotal)}</td>
+            <td><span class="num">${formatNumber(bmBookTotal)}</span></td>
+            <td><span class="num">${formatNumber(bmSalesTotal)}</span></td>
           </tr>
         </tfoot>
       </table>
@@ -213,7 +213,33 @@ function renderTables(llpRecords, bmRecords) {
   `;
 
   document.getElementById("output").innerHTML = html;
+  equalizeNumberWidths();
 }
+
+// 🔹 Give every number in a column the same width so that units sit
+//    under units and thousands under thousands, while the block of
+//    figures stays centred in the column.
+function equalizeNumberWidths() {
+  document.querySelectorAll(".results-table").forEach(table => {
+    const columns = {};
+    table.querySelectorAll("td .num").forEach(span => {
+      const index = span.parentElement.cellIndex;
+      (columns[index] = columns[index] || []).push(span);
+    });
+    Object.values(columns).forEach(spans => {
+      spans.forEach(s => { s.style.width = ""; });
+      const widest = Math.max(...spans.map(s => s.getBoundingClientRect().width));
+      spans.forEach(s => { s.style.width = widest + "px"; });
+    });
+  });
+}
+
+// Re-measure when the layout changes (font sizes shift at breakpoints).
+let numAlignTimer = null;
+window.addEventListener("resize", () => {
+  clearTimeout(numAlignTimer);
+  numAlignTimer = setTimeout(equalizeNumberWidths, 150);
+});
 
 // 🔹 Events
 const refreshBtn = document.getElementById("refreshData");

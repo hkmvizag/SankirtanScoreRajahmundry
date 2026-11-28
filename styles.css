@@ -490,12 +490,20 @@ select:focus {
   }
 }
 
-/* ── Numeric values: right-aligned ──────────────── */
-/* Column 1 is the Devotee name; columns 2+ hold numbers
-   (Contacts / Laxmi Points, Book Points / Sales Points).
-   Only the values are right-aligned - the column headers
-   stay centred. Covers body and total rows in both tables. */
+/* ── Numeric values: place-value aligned, centred ── */
+/* Each number sits in an inline block that is right-aligned
+   inside itself, so units sit under units and thousands under
+   thousands. Every block in a column is given the same width
+   by equalizeNumberWidths() in app.js, and the block itself is
+   centred in the cell - so the column of figures is centred as
+   a whole while the digits stay in line. */
 .results-table td:nth-child(n + 2) {
+  text-align: center;
+}
+
+.results-table .num {
+  display: inline-block;
   text-align: right;
   font-variant-numeric: tabular-nums;
+  white-space: nowrap;
 }
